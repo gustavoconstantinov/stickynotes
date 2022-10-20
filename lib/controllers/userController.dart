@@ -7,13 +7,19 @@ import 'package:project_note/controllers/authController.dart';
 import 'package:project_note/screens/home/home.dart';
 
 class UserController extends GetxController {
+  final authController = Get.put(AuthController());
   ScrollController controller = ScrollController();
+  late bool isLoading = true;
+  final oneNote = RxMap();
   Map<String, dynamic> notes = {};
   List<dynamic> notesList = [].obs;
   var allNotes;
   @override
   void onInit() {
     this.getNotes();
+    if(this.oneNote['id'] != null){
+      this.isLoading = false;
+    }
     super.onInit();
   }
   void createNote(String title, String text) async {
@@ -21,7 +27,7 @@ class UserController extends GetxController {
       DocumentReference<Map<String, dynamic>> note = await FirebaseFirestore.instance.collection("Notes").doc(Get.find<AuthController>().auth.currentUser!.uid).collection("User Notes").add({
         "title": title,
         "text": text,
-        "id": '${Get.find<AuthController>().auth.currentUser!.uid}${title}',
+        "id": '${Get.find<AuthController>().auth.currentUser!.uid}${DateTime.now()}',
         "color": this.getColor(),
       });
       this.getNotes();
@@ -29,6 +35,45 @@ class UserController extends GetxController {
     }catch (e) {
       Get.snackbar("Ocorreu um erro", e.toString());
     }
+  }
+
+  void logout () async {
+    await authController.googleLogout();
+  }
+
+  void updateOneNote(String id,String title, String text) async {
+    String userID = Get.find<AuthController>().auth.currentUser!.uid;
+    QuerySnapshot notes = await FirebaseFirestore.instance.collection("Notes").doc(userID).collection("User Notes").get();
+
+    for(DocumentSnapshot loop in notes.docs){
+      if(loop.get('id') == id){
+        loop.reference.update({
+        "title": title,
+        "text": text,
+        });
+        this.oneNote['title'] = loop.get('title');
+        this.oneNote['text'] = loop.get('text');
+        this.oneNote['id'] = loop.get('id');
+        update();
+        Get.to(() => Home());
+      }
+    }
+  }
+
+  void getOneNote (String id) async {
+
+     String userID = Get.find<AuthController>().auth.currentUser!.uid;
+     QuerySnapshot notes = await FirebaseFirestore.instance.collection("Notes").doc(userID).collection("User Notes").get();
+
+     for(DocumentSnapshot loop in notes.docs){
+       if(loop.get('id') == id){
+         this.oneNote['title'] = loop.get('title');
+         this.oneNote['text'] = loop.get('text');
+         this.oneNote['id'] = loop.get('id');
+         update();
+         this.isLoading = false;
+       }
+     }
   }
 
   void getNotes () async{
@@ -45,9 +90,16 @@ class UserController extends GetxController {
 
   void deleteNote(String id) async{
     try {
-      QuerySnapshot teste = await FirebaseFirestore.instance.collection('Notes').doc(Get.find<AuthController>().auth.currentUser!.uid).collection('User Notes').get();
-      List<dynamic> teste2 = teste.docs.where((element) => element["id"] == id).toList();
-      print(teste2[0]);
+      String userID = Get.find<AuthController>().auth.currentUser!.uid;
+      QuerySnapshot teste = await FirebaseFirestore.instance.collection('Notes').doc(userID).collection('User Notes').get();
+
+      for(DocumentSnapshot loop in teste.docs){
+        if(loop.get('id') == id){
+          loop.reference.delete();
+          this.getNotes();
+        }
+      }
+
     } catch (e) {
       print(e);
     }

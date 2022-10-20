@@ -2,12 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
+import 'package:project_note/bindings/editBindings.dart';
+import 'package:project_note/controllers/userController.dart';
+import 'package:project_note/routes/app_routes.dart';
+
+import 'edit_note.dart';
 
 class CardItem extends StatelessWidget {
   final String title;
   final String note;
-  final int id;
+  final String id;
   final Color color;
+  var userController = Get.put(UserController());
 
   CardItem(
       this.title, this.note, this.id ,this.color);
@@ -72,7 +79,9 @@ class CardItem extends StatelessWidget {
                         ),
                         child: IconButton(
                             padding: EdgeInsets.zero,
-                          onPressed: () {}, icon: Icon(Icons.edit, color: Colors.white,), alignment: Alignment.center,),
+                          onPressed: () {
+                            Get.toNamed(AppRoutes('edit-note', this.id));
+                          }, icon: Icon(Icons.edit, color: Colors.white,), alignment: Alignment.center,),
                       ),
                       Spacer(),
                       Container(
@@ -85,7 +94,9 @@ class CardItem extends StatelessWidget {
                         ),
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {}, icon: Icon(Icons.delete, color: Colors.white,), alignment: Alignment.center,),
+                          onPressed: () {
+                            userController.deleteNote(this.id);
+                          }, icon: Icon(Icons.delete, color: Colors.white,), alignment: Alignment.center,),
                       ),
                     ],
                   ),
