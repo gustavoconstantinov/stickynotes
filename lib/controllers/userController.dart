@@ -17,9 +17,6 @@ class UserController extends GetxController {
   @override
   void onInit() {
     this.getNotes();
-    if(this.oneNote['id'] != null){
-      this.isLoading = false;
-    }
     super.onInit();
   }
   void createNote(String title, String text) async {
@@ -39,41 +36,6 @@ class UserController extends GetxController {
 
   void logout () async {
     await authController.googleLogout();
-  }
-
-  void updateOneNote(String id,String title, String text) async {
-    String userID = Get.find<AuthController>().auth.currentUser!.uid;
-    QuerySnapshot notes = await FirebaseFirestore.instance.collection("Notes").doc(userID).collection("User Notes").get();
-
-    for(DocumentSnapshot loop in notes.docs){
-      if(loop.get('id') == id){
-        loop.reference.update({
-        "title": title,
-        "text": text,
-        });
-        this.oneNote['title'] = loop.get('title');
-        this.oneNote['text'] = loop.get('text');
-        this.oneNote['id'] = loop.get('id');
-        update();
-        Get.to(() => Home());
-      }
-    }
-  }
-
-  void getOneNote (String id) async {
-
-     String userID = Get.find<AuthController>().auth.currentUser!.uid;
-     QuerySnapshot notes = await FirebaseFirestore.instance.collection("Notes").doc(userID).collection("User Notes").get();
-
-     for(DocumentSnapshot loop in notes.docs){
-       if(loop.get('id') == id){
-         this.oneNote['title'] = loop.get('title');
-         this.oneNote['text'] = loop.get('text');
-         this.oneNote['id'] = loop.get('id');
-         update();
-         this.isLoading = false;
-       }
-     }
   }
 
   void getNotes () async{

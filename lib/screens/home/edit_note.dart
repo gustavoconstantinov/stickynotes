@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 import 'package:project_note/controllers/editController.dart';
 
 class EditNote extends GetView<EditController> {
-  late TextEditingController titleController = TextEditingController(text: controller.oneNote['title']);
-  late TextEditingController descriptionController = TextEditingController(text: controller.oneNote['text']);
-
+  late TextEditingController titleController = TextEditingController(text: controller.oneNote.value.values.elementAt(0));
+  late TextEditingController descriptionController = TextEditingController(text: controller.oneNote.value.values.elementAt(1));
 
   @override
   Widget build(BuildContext context) {
-    return controller.oneNote['id'] == null ? Center(child: CircularProgressIndicator(strokeWidth: 8, backgroundColor: Theme.of(context).primaryColor)) : Scaffold(
+    return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Obx(() {
           return Container(
@@ -66,7 +65,7 @@ class EditNote extends GetView<EditController> {
                   child: TextButton(
                       onPressed: () {
                         if(titleController.text != '' && descriptionController.text != ''){
-                          controller.updateOneNote(id, titleController.text, descriptionController.text);
+                          controller.updateOneNote(titleController.text, descriptionController.text);
                         } else {
                           Get.snackbar("Campos obrigatórios", "Por favor preeencha todos os campos", backgroundColor: Colors.white, colorText: Colors.black);
                         }

@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:project_note/bindings/editBindings.dart';
 import 'package:project_note/controllers/userController.dart';
-import 'package:project_note/routes/app_routes.dart';
 
 import 'edit_note.dart';
 
@@ -80,7 +79,7 @@ class CardItem extends StatelessWidget {
                         child: IconButton(
                             padding: EdgeInsets.zero,
                           onPressed: () {
-                            Get.toNamed(AppRoutes('edit-note', this.id));
+                            Get.to(EditNote(), binding: EditBindings(this.id));
                           }, icon: Icon(Icons.edit, color: Colors.white,), alignment: Alignment.center,),
                       ),
                       Spacer(),
