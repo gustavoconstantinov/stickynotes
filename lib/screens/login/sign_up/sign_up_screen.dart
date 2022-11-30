@@ -21,10 +21,10 @@ class SignUpScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                Icon(Icons.local_fire_department, color: Colors.white, size: 70,),
+                Icon(Icons.note_alt, color: Colors.white, size: 70,),
                 Container(
                     margin: EdgeInsets.only(bottom: 50, top: 17),
-                    child: Text("EverMode", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 36, color: Colors.white),)),
+                    child: Text("StickyNotes", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 36, color: Colors.white),)),
                 Container(
                     alignment: Alignment.centerLeft,
                     child: Text("Nome")),

@@ -10,68 +10,70 @@ import 'package:project_note/screens/home/create_note.dart';
 
 class Home extends StatelessWidget {
   final controller = Get.put(AuthController());
-  final userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<UserController>(
         init: UserController(),
         builder: (_) => Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        margin: EdgeInsets.only(top: 20, left: 14, right: 14),
-        child: Column(
-          children: [
-            Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 10),
-                child: Row(
+              backgroundColor: Colors.white,
+              body: Container(
+                margin: EdgeInsets.only(top: 20, left: 14, right: 14),
+                child: Column(
                   children: [
-                    Text(
-                      "Minhas anotações",
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.grey.shade600),
-                    ),
-                    Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          controller.googleLogout();
-                        },
-                        icon: Icon(Icons.logout, color: Colors.grey.shade600))
+                    Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 10, top:20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Minhas anotações",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.grey.shade600),
+                            ),
+                            Spacer(),
+                            IconButton(
+                                onPressed: () {
+                                  controller.googleLogout();
+                                },
+                                icon: Icon(Icons.logout,
+                                    color: Colors.grey.shade600))
+                          ],
+                        )),
+                    Expanded(
+                      child: SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                            controller: _.controller,
+                            itemCount: _.notesList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return CardItem(
+                                  _.notesList[index]['title'] ??
+                                      "",
+                                  _.notesList[index]['text'] ?? "",
+                                  _.notesList[index]['id'] ?? "",
+                                  Color(_.getColorIndex(_.notesList[index]['color'] ?? "")));
+                                  //Color(_.getColor()));
+                            }),
+                      ),
+                    )
                   ],
-                )),
-            Expanded(
-              child: SizedBox(
-                height: 200,
-                child: ListView.builder(
-                    controller: userController.controller,
-                    itemCount: userController.notesList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CardItem(
-                          userController.notesList[index]['title'] ?? "",
-                          userController.notesList[index]['text'] ?? "",
-                          userController.notesList[index]['id'] ?? "",
-                          Color(userController.getColor()));
-                    }),
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => CreateNote());
-        },
-        child: Icon(
-          Icons.add_outlined,
-          size: 40,
-          color: Colors.white,
-        ),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
-    ));
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Get.to(() => CreateNote());
+                },
+                child: Icon(
+                  Icons.add_outlined,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            ));
   }
 }

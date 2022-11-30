@@ -5,8 +5,8 @@ import 'package:project_note/screens/home/home.dart';
 import 'package:project_note/screens/login/sign_up/sign_up_screen.dart';
 
 class Login extends StatelessWidget {
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
+  final TextEditingController email = TextEditingController(text: 'gustavo.constantinov@gmail.com');
+  final TextEditingController password = TextEditingController(text: '12345678');
   final controller = Get.put(AuthController());
 
   @override
@@ -21,14 +21,14 @@ class Login extends StatelessWidget {
             child: Column(
               children: [
                 Icon(
-                  Icons.local_fire_department,
+                  Icons.note_alt,
                   color: Colors.white,
                   size: 70,
                 ),
                 Container(
                     margin: EdgeInsets.only(bottom: 90, top: 17),
                     child: Text(
-                      "EverMode",
+                      "StickyNotes",
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 36,
@@ -36,36 +36,45 @@ class Login extends StatelessWidget {
                     )),
                 Container(
                     alignment: Alignment.centerLeft,
-                    child: Text("E-mail")),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  margin: EdgeInsets.only(bottom: 20),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4)
+                    margin: EdgeInsets.only(bottom:5),
+                    child: Text("E-mail",
+                        style: TextStyle(
+                        fontSize: 16),
+                    )),
+                TextField(
+                  controller: email,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                    filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
                   ),
-                  child: TextField(
-                    controller: email,
-                    decoration: InputDecoration(
-                        border: InputBorder.none
-                    ),
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+
+
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.centerLeft,
-                    child: Text("Senha")),
+                    child: Text("Senha",
+                      style: TextStyle(
+                          fontSize: 16),
+                    )),
                 Container(
-                  height: 40,
+                  height: 46,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4)),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  margin: EdgeInsets.only(bottom: 40),
+                  padding: EdgeInsets.only(left: 5, right: 5, bottom: 8),
+                  margin: EdgeInsets.only(bottom: 40, top: 5),
                   child: TextFormField(
                     controller: password,
                     obscureText: true,

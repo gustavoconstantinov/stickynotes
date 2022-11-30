@@ -2,12 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
+import 'package:project_note/bindings/editBindings.dart';
+import 'package:project_note/controllers/userController.dart';
+
+import 'edit_note.dart';
 
 class CardItem extends StatelessWidget {
   final String title;
   final String note;
-  final int id;
+  final String id;
   final Color color;
+  var userController = Get.put(UserController());
 
   CardItem(
       this.title, this.note, this.id ,this.color);
@@ -18,12 +24,12 @@ class CardItem extends StatelessWidget {
       margin: EdgeInsets.only(top: 8, bottom: 8),
       height: 110,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        //borderRadius: BorderRadius.circular(8.0),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade500,
-            blurRadius: 4.0,
+            blurRadius: 2.0,
             spreadRadius: 0.5,
             offset: Offset(1.0, 1.0),
           )
@@ -34,9 +40,9 @@ class CardItem extends StatelessWidget {
           Container(
             width: 8,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15)),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(15),
+              //     bottomLeft: Radius.circular(15)),
               color: color,
             ),
           ),
@@ -72,7 +78,9 @@ class CardItem extends StatelessWidget {
                         ),
                         child: IconButton(
                             padding: EdgeInsets.zero,
-                          onPressed: () {}, icon: Icon(Icons.edit, color: Colors.white,), alignment: Alignment.center,),
+                          onPressed: () {
+                            Get.to(EditNote(), binding: EditBindings(this.id));
+                          }, icon: Icon(Icons.edit, color: Colors.white,), alignment: Alignment.center,),
                       ),
                       Spacer(),
                       Container(
@@ -85,7 +93,9 @@ class CardItem extends StatelessWidget {
                         ),
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {}, icon: Icon(Icons.delete, color: Colors.white,), alignment: Alignment.center,),
+                          onPressed: () {
+                            userController.deleteNote(this.id);
+                          }, icon: Icon(Icons.delete, color: Colors.white,), alignment: Alignment.center,),
                       ),
                     ],
                   ),

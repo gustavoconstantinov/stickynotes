@@ -1,6 +1,7 @@
 # project_note
 
 A new Flutter project.
+Version Flutter 2.5.0
 
 ## Getting Started
 

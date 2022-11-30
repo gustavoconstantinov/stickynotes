@@ -7,7 +7,10 @@ import 'package:project_note/controllers/authController.dart';
 import 'package:project_note/screens/home/home.dart';
 
 class UserController extends GetxController {
+  final authController = Get.put(AuthController());
   ScrollController controller = ScrollController();
+  late bool isLoading = true;
+  final oneNote = RxMap();
   Map<String, dynamic> notes = {};
   List<dynamic> notesList = [].obs;
   var allNotes;
@@ -21,7 +24,7 @@ class UserController extends GetxController {
       DocumentReference<Map<String, dynamic>> note = await FirebaseFirestore.instance.collection("Notes").doc(Get.find<AuthController>().auth.currentUser!.uid).collection("User Notes").add({
         "title": title,
         "text": text,
-        "id": '${Get.find<AuthController>().auth.currentUser!.uid}${title}',
+        "id": '${Get.find<AuthController>().auth.currentUser!.uid}${DateTime.now()}',
         "color": this.getColor(),
       });
       this.getNotes();
@@ -31,6 +34,10 @@ class UserController extends GetxController {
     }
   }
 
+  void logout () async {
+    await authController.googleLogout();
+  }
+
   void getNotes () async{
     QuerySnapshot listNotes = await FirebaseFirestore.instance.collection("Notes").doc(Get.find<AuthController>().auth.currentUser!.uid).collection("User Notes").get();
 
@@ -38,16 +45,27 @@ class UserController extends GetxController {
     update();
   }
 
-  int getColor () {
+  int getColorIndex (int index) {
     List<dynamic> colors = [{ 'color': 0xffFF8B8B }, { 'color':0xff74B2D4 } , { 'color':0xff66BB6A }, { 'color':0xff7B1FA2 }, { 'color':0xffFF6F00 }, { 'color':0xff76FF03 }, { 'color':0xffD81B60 }, { 'color':0xff1A237E }, { 'color':0xff4E342E }];
-     return colors[Random().nextInt(8) + 0]['color'];
+    return colors[index]['color'];
+  }
+
+  int getColor () {
+     return Random().nextInt(8) + 0;
   }
 
   void deleteNote(String id) async{
     try {
-      QuerySnapshot teste = await FirebaseFirestore.instance.collection('Notes').doc(Get.find<AuthController>().auth.currentUser!.uid).collection('User Notes').get();
-      List<dynamic> teste2 = teste.docs.where((element) => element["id"] == id).toList();
-      print(teste2[0]);
+      String userID = Get.find<AuthController>().auth.currentUser!.uid;
+      QuerySnapshot teste = await FirebaseFirestore.instance.collection('Notes').doc(userID).collection('User Notes').get();
+
+      for(DocumentSnapshot loop in teste.docs){
+        if(loop.get('id') == id){
+          loop.reference.delete();
+          this.getNotes();
+        }
+      }
+
     } catch (e) {
       print(e);
     }
