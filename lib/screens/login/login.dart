@@ -36,27 +36,30 @@ class Login extends StatelessWidget {
                     )),
                 Container(
                     alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(bottom:5),
                     child: Text("E-mail",
                         style: TextStyle(
                         fontSize: 16),
                     )),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  margin: EdgeInsets.only(bottom: 20, top: 5),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4)
+                TextField(
+                  controller: email,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                    filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
                   ),
-                  child: TextField(
-                    controller: email,
-                    decoration: InputDecoration(
-                        border: InputBorder.none
-                    ),
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+
+
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 10),
@@ -66,11 +69,11 @@ class Login extends StatelessWidget {
                           fontSize: 16),
                     )),
                 Container(
-                  height: 40,
+                  height: 46,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4)),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  padding: EdgeInsets.only(left: 5, right: 5, bottom: 8),
                   margin: EdgeInsets.only(bottom: 40, top: 5),
                   child: TextFormField(
                     controller: password,

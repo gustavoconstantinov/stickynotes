@@ -45,9 +45,13 @@ class UserController extends GetxController {
     update();
   }
 
-  int getColor () {
+  int getColorIndex (int index) {
     List<dynamic> colors = [{ 'color': 0xffFF8B8B }, { 'color':0xff74B2D4 } , { 'color':0xff66BB6A }, { 'color':0xff7B1FA2 }, { 'color':0xffFF6F00 }, { 'color':0xff76FF03 }, { 'color':0xffD81B60 }, { 'color':0xff1A237E }, { 'color':0xff4E342E }];
-     return colors[Random().nextInt(8) + 0]['color'];
+    return colors[index]['color'];
+  }
+
+  int getColor () {
+     return Random().nextInt(8) + 0;
   }
 
   void deleteNote(String id) async{

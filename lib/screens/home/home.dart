@@ -23,7 +23,7 @@ class Home extends StatelessWidget {
                   children: [
                     Container(
                         width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: EdgeInsets.only(bottom: 10, top:20),
                         child: Row(
                           children: [
                             Text(
@@ -55,7 +55,8 @@ class Home extends StatelessWidget {
                                       "",
                                   _.notesList[index]['text'] ?? "",
                                   _.notesList[index]['id'] ?? "",
-                                  Color(_.getColor()));
+                                  Color(_.getColorIndex(_.notesList[index]['color'] ?? "")));
+                                  //Color(_.getColor()));
                             }),
                       ),
                     )

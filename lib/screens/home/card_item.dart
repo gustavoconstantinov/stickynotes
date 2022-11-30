@@ -24,12 +24,12 @@ class CardItem extends StatelessWidget {
       margin: EdgeInsets.only(top: 8, bottom: 8),
       height: 110,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        //borderRadius: BorderRadius.circular(8.0),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade500,
-            blurRadius: 4.0,
+            blurRadius: 2.0,
             spreadRadius: 0.5,
             offset: Offset(1.0, 1.0),
           )
@@ -40,9 +40,9 @@ class CardItem extends StatelessWidget {
           Container(
             width: 8,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15)),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(15),
+              //     bottomLeft: Radius.circular(15)),
               color: color,
             ),
           ),
