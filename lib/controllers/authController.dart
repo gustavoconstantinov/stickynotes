@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_note/routes/app_routes.dart';
 import 'package:project_note/screens/home/home.dart';
 import 'package:project_note/screens/login/login_initial.dart';
+import 'package:project_note/screens/login/login.dart';
 import 'package:project_note/screens/login/sign_up/sign_up_screen.dart';
 
 class AuthController extends GetxController {
@@ -42,10 +44,11 @@ class AuthController extends GetxController {
           'uid': auth.currentUser!.uid// Stokes and Sons
         });
 
-        DocumentReference<Map<String, dynamic>> note = await FirebaseFirestore.instance.collection("Notes").doc(uid as String).collection("User Notes").add({
-          "title": "Bem vindo ao EverMode",
+        DocumentReference<Map<String, dynamic>> note = await FirebaseFirestore.instance.collection("Notes").doc(uid as String).collection("UserNotes").add({
+          "title": "Bem vindo ao StickyNotes",
           "text": "Primeira nota: avalie nosso app!",
-          'id': "${uid}${"BemVindoEverMode"}"
+          'id': "${uid}${"BemVindoStickyNotes"}",
+          'color': 1,
         });
         Get.to(() => Home());
       }
@@ -72,8 +75,11 @@ class AuthController extends GetxController {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       firebaseUser = auth.currentUser!;
-      if(auth.currentUser != null ) {
-        Get.to(() => Home());
+      if(auth.currentUser != null) {
+        Get.toNamed(AppRoutes.home);
+        print(firebaseUser);
+      } else {
+        Get.to(() => Login());
       }
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Ocorreu um erro", e.message.toString(), colorText: Color(0xff000000), backgroundColor: Color(0xffffffff));
@@ -82,7 +88,7 @@ class AuthController extends GetxController {
 
   signOut() async {
     await auth.signOut();
-
+    Get.to(() => LoginInitial());
     print('signout');
   }
 

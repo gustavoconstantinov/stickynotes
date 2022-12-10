@@ -8,72 +8,85 @@ import 'package:project_note/controllers/userController.dart';
 import 'package:project_note/screens/home/card_item.dart';
 import 'package:project_note/screens/home/create_note.dart';
 
-class Home extends StatelessWidget {
-  final controller = Get.put(AuthController());
+class Home extends GetView<UserController> {
+  //final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<UserController>(
-        init: UserController(),
-        builder: (_) => Scaffold(
-              backgroundColor: Colors.white,
-              body: Container(
-                margin: EdgeInsets.only(top: 20, left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 10, top:20),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Minhas anotações",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.grey.shade600),
-                            ),
-                            Spacer(),
-                            IconButton(
-                                onPressed: () {
-                                  controller.googleLogout();
-                                },
-                                icon: Icon(Icons.logout,
-                                    color: Colors.grey.shade600))
-                          ],
-                        )),
-                    Expanded(
-                      child: SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                            controller: _.controller,
-                            itemCount: _.notesList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return CardItem(
-                                  _.notesList[index]['title'] ??
-                                      "",
-                                  _.notesList[index]['text'] ?? "",
-                                  _.notesList[index]['id'] ?? "",
-                                  Color(_.getColorIndex(_.notesList[index]['color'] ?? "")));
-                                  //Color(_.getColor()));
-                            }),
+    return Scaffold (
+      backgroundColor: Colors.transparent,
+      body: Obx(() {
+        return Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff861bfe),
+                  Color(0xff5e5bf0),
+                  Color(0xffb2b0fc),
+                ],
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+              )
+          ),
+          //margin: EdgeInsets.only(top: 20, left: 14, right: 14),
+          padding: EdgeInsets.only(left:10, right:10),
+          child: Column(
+            children: [
+              Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(bottom: 10, top:40),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Minhas anotações",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
                       ),
-                    )
-                  ],
+                      Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            controller.notesList.removeRange(0, controller.notesList.length);
+                            controller.authController.signOut();
+                          },
+                          icon: Icon(Icons.logout,
+                              color: Colors.white))
+                    ],
+                  )),
+              Expanded(
+                child: SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                      controller: controller.scrollController,
+                      itemCount: controller.notesList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CardItem(
+                            controller.notesList[index]['title'] ??
+                                "",
+                            controller.notesList[index]['text'] ?? "",
+                            controller.notesList[index]['id'] ?? "",
+                            Color(controller.getColorIndex(controller.notesList[index]['color'] ?? "")));
+                        //Color(_.getColor()));
+                      }),
                 ),
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Get.to(() => CreateNote());
-                },
-                child: Icon(
-                  Icons.add_outlined,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-            ));
+              )
+            ],
+          ),
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => CreateNote());
+        },
+        child: Icon(
+          Icons.add_outlined,
+          size: 40,
+          color: Colors.white,
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+    );
   }
 }

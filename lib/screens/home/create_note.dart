@@ -10,20 +10,34 @@ class CreateNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.transparent,
       body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xff861bfe),
+                Color(0xff5e5bf0),
+                Color(0xff9390f8),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            )
+        ),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
         child: ListView(
           children: [
             Container(margin: EdgeInsets.only(bottom: 30), child: Text("Novo Lembrete", style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.w700),),),
-            Text("Titulo"),
+            Container(
+              margin: EdgeInsets.only(top:10, bottom:10),
+              child: Text("Titulo", style: TextStyle(fontSize: 16)),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               margin: EdgeInsets.only(bottom: 20),
               height: 40,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(4)
+                  borderRadius: BorderRadius.circular(10)
               ),
               child: TextField(
                 controller: _titleController,
@@ -35,13 +49,16 @@ class CreateNote extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            Text("Descrição"),
+            Container(
+              margin: EdgeInsets.only(top:10, bottom:10),
+              child: Text("Descrição", style: TextStyle(fontSize: 16)),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               height: 150,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(4)
+                  borderRadius: BorderRadius.circular(10)
               ),
               child: TextField(
                 controller: _descriptionController,
@@ -60,7 +77,7 @@ class CreateNote extends StatelessWidget {
               margin: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
                   color: Colors.grey.shade900,
-                  borderRadius: BorderRadius.circular(2)
+                  borderRadius: BorderRadius.circular(25)
               ),
               child: TextButton(
                   onPressed: () {

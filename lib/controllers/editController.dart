@@ -53,6 +53,7 @@ class EditController extends GetxController {
     String userID = Get.find<AuthController>().auth.currentUser!.uid;
     QuerySnapshot notes = await FirebaseFirestore.instance.collection("Notes").doc(userID).collection("User Notes").get();
 
+
     for(DocumentSnapshot loop in notes.docs){
       if(loop.get('id') == id){
         this.oneNote.value.addAll({'title': loop.get('title'), 'text': loop.get('text'), 'id': loop.get('id') });

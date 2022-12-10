@@ -10,8 +10,19 @@ class LoginInitial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.transparent,
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xff861bfe),
+              Color(0xff5e5bf0),
+              Color(0xff9390f8),
+            ],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          )
+        ),
         padding: EdgeInsets.symmetric(horizontal: 45),
         alignment: Alignment.center,
         child: Column(
@@ -26,13 +37,13 @@ class LoginInitial extends StatelessWidget {
               height: 50,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(2)
+                  borderRadius: BorderRadius.circular(25)
               ),
               child: TextButton(
                   onPressed: () {
                     Get.to(() => Login());
                   },
-                  child: Text("Iniciar", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey.shade600),)),
+                  child: Text("Iniciar", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey.shade700),)),
             )
           ],
         ),

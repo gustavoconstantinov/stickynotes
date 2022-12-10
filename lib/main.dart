@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:project_note/bindings/controllerBindings.dart';
+import 'package:project_note/routes/app_pages.dart';
 import 'package:project_note/screens/login/login_initial.dart';
 import 'package:project_note/screens/login/sign_up/sign_up_screen.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         const Locale('pt', 'BR'),
       ],
       locale: Locale('pt'),
-      title: 'EverMode',
+      title: 'StickyNotes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: LoginInitial(),
+      getPages: AppPages.pages,
     );
   }
 }
